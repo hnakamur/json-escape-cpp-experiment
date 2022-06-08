@@ -1,6 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include <string.h>
-#include <iostream>
+#include <cstring>
 
 const char short_escapes[0x20] = {
   0, 0, 0, 0, 0, 0, 0, 0,
@@ -31,7 +30,7 @@ escape_json(char *dest, const char *buf, int len)
           *dest++ = '7';
           *dest++ = 'f';
         }
-        escaped_len += 6;        
+        escaped_len += 6;
     } else if (c >= '\x20') {
       if (dest) {
         *dest++ = c;
@@ -60,12 +59,12 @@ escape_json(char *dest, const char *buf, int len)
 }
 
 TEST_CASE("escape json") {
-#define HELPER(section_name, input, want)                     \
-  SECTION(section_name) {                                     \
-    char buf[64];                                             \
-    int escaped_len = escape_json(buf, input, strlen(input)); \
-    CHECK(escaped_len == strlen(want));                       \
-    CHECK(strncmp(buf, want, escaped_len) == 0);              \
+#define HELPER(section_name, input, want)                          \
+  SECTION(section_name) {                                          \
+    char buf[64];                                                  \
+    int escaped_len = escape_json(buf, input, std::strlen(input)); \
+    CHECK(escaped_len == std::strlen(want));                       \
+    CHECK(strncmp(buf, want, escaped_len) == 0);                   \
   }
 
   HELPER("no escape", "ab", "ab")
